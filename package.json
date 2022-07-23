@@ -10,8 +10,10 @@
     "@types/googlemaps": "^3.39.9",
     "@types/markerclustererplus": "^2.1.33",
     "@types/react": "^16.9.43",
+    "bootstrap": "^4.6.0",
     "npm-overlapping-marker-spiderfier": "^1.0.3",
     "react": "^16.13.1",
+    "react-bootstrap": "^1.4.3",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1"
   },
