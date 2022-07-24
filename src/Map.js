@@ -11,9 +11,12 @@ const onMarkerLoad = (marker) => {
 };
 
 class StadiumsMap extends React.Component {
-    state = {
-        mapMarkers: [],
-        activeMarker: null
+    constructor(props) {
+        super(props);
+        this.state = {
+            mapMarkers: [],
+            activeMarker: null
+        };
     }
 
     onMapLoad = (map) => {
@@ -58,29 +61,30 @@ class StadiumsMap extends React.Component {
             >
                 {marker.teamId === this.state.activeMarker && <InfoBox
                     key={`infowindow-${marker.teamId}`}
+                    // options={{disableAutoPan: true, pixelOffset: { width: 0, height: 0}}}
                     onCloseClick={() => this.setState({activeMarker: null})}
                 >
                     <Card style={{ width: '18rem' }}>
-                        <Card.Img variant="top" src="https://img.mlbstatic.com/mlb-images/image/private/t_2x1/t_w1536/mlb/b4cwfrwczafhg9jmzy4q.jpg" />
+                        <Card.Img variant="top" src={marker.imageUrl}/>
                         <Card.Body>
-                            <Card.Title>Great American Ball Park</Card.Title>
+                            <Card.Title>{marker.stadiumName}</Card.Title>
                             <Table borderless={true}>
                                 <tbody>
                                     <tr>
                                         <th>Team</th>
-                                        <td>Cincinnati Reds</td>
+                                        <td>{marker.teamName}</td>
                                     </tr>
                                     <tr>
                                         <th>Location</th>
-                                        <td>Cincinnati, OH</td>
+                                        <td>{`${marker.city}, ${marker.state}`}</td>
                                     </tr>
                                     <tr>
-                                        <th>Founded</th>
-                                        <td>1892</td>
+                                        <th>Opened</th>
+                                        <td>{marker.openingDate}</td>
                                     </tr>
                                     <tr>
                                         <th>Capacity</th>
-                                        <td>45,000</td>
+                                        <td>{marker.capacity}</td>
                                     </tr>
                                 </tbody>
                             </Table>
