@@ -14,17 +14,20 @@ class StadiumsMap extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            map: null,
             mapMarkers: [],
-            activeMarker: null
+            activeMarker: null,
+            activeMarkerPosition: null,
         };
     }
 
     onMapLoad = (map) => {
+        this.setState({map});
         spiderfy = new oms.OverlappingMarkerSpiderfier(map, {keepSpiderfied: true});
         spiderfy.addListener('click', (marker, event) => {
             const activeMarker = this.state.activeMarker === marker.title ? null : marker.title;
-            this.setState({activeMarker});
-            console.log(event);
+            const activeMarkerPosition = event.pixel;
+            this.setState({activeMarker, activeMarkerPosition});
         });
     };
 
@@ -35,13 +38,26 @@ class StadiumsMap extends React.Component {
             .catch(err => console.error('Failed to retrieve map data: ' + err));
     }
 
+    getInfoWindowPixelOffset() {
+        let offsetX = 0;
+        let offsetY = 0;
+
+        const mapMaxY = 300;
+        const extraPaddingX = 15;
+        const mapMaxX = 1000;
+        const infoWindowWidth = 288;
+
+        offsetX = infoWindowWidth + this.state.activeMarkerPosition.x + extraPaddingX > mapMaxX ? -1 * infoWindowWidth - extraPaddingX : extraPaddingX;
+        offsetY = -1 * (this.state.activeMarkerPosition.y + mapMaxY);
+        return new window.google.maps.Size(offsetX, offsetY);
+    }
+
     render() {
-        console.log(this.state.activeMarker);
         return <GoogleMap
             id='stadiums-map'
             mapContainerStyle={{height: '600px'}}
             zoom={4}
-            center={{lat: 39.8097343, lng: -98.5556199 }}
+            center={this.state.map ? this.state.map.getCenter() : {lat: 39.8097343, lng: -98.5556199 }}
             onLoad={this.onMapLoad}
             onClick={() => this.setState({activeMarker: null})}
         >
@@ -61,7 +77,7 @@ class StadiumsMap extends React.Component {
             >
                 {marker.teamId === this.state.activeMarker && <InfoBox
                     key={`infowindow-${marker.teamId}`}
-                    // options={{disableAutoPan: true, pixelOffset: { width: 0, height: 0}}}
+                    options={{disableAutoPan: true, pixelOffset: this.getInfoWindowPixelOffset()}}
                     onCloseClick={() => this.setState({activeMarker: null})}
                 >
                     <Card style={{ width: '18rem' }}>
