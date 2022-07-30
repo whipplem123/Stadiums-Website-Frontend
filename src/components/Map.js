@@ -81,7 +81,7 @@ class StadiumsMap extends React.Component {
                     onCloseClick={() => this.setState({activeMarker: null})}
                 >
                     <Card style={{ width: '18rem' }}>
-                        <Card.Img variant="top" src={marker.imageUrl}/>
+                        <Card.Img variant="top" src={marker.stadiumImages[0]}/>
                         <Card.Body>
                             <Card.Title>{marker.stadiumName}</Card.Title>
                             <Table borderless={true}>
