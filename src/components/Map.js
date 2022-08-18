@@ -63,10 +63,10 @@ class StadiumsMap extends React.Component {
         >
         {this.state.mapMarkers.map((marker) => {
             return <Marker
-                id={marker.teamId}
-                key={marker.teamId}
-                name={marker.teamId}
-                title={marker.teamId}
+                id={marker.tenantId}
+                key={marker.tenantId}
+                name={marker.tenantId}
+                title={marker.tenantId}
                 position={marker.position}
                 onLoad={onMarkerLoad}
                 icon={{
@@ -75,13 +75,13 @@ class StadiumsMap extends React.Component {
                     scaledSize: new window.google.maps.Size(marker.markerSize.x, marker.markerSize.y)
                 }}
             >
-                {marker.teamId === this.state.activeMarker && <InfoBox
-                    key={`infowindow-${marker.teamId}`}
+                {marker.tenantId === this.state.activeMarker && <InfoBox
+                    key={`infowindow-${marker.tenantId}`}
                     options={{disableAutoPan: true, pixelOffset: this.getInfoWindowPixelOffset()}}
                     onCloseClick={() => this.setState({activeMarker: null})}
                 >
                     <Card style={{ width: '18rem' }}>
-                        <Card.Img variant="top" src={marker.stadiumImages[0]}/>
+                        <Card.Img variant="top" src={marker.imageWithFans}/>
                         <Card.Body>
                             <Card.Title>{marker.stadiumName}</Card.Title>
                             <Table borderless={true}>
