@@ -69,6 +69,7 @@ class StadiumsMap extends React.Component {
                 title={marker.tenantId}
                 position={marker.position}
                 onLoad={onMarkerLoad}
+                options={{optimized: false}}
                 icon={{
                     url: marker.logoUrl,
                     anchor: new window.google.maps.Point(marker.markerSize.x / 2, marker.markerSize.y / 2),
@@ -102,9 +103,13 @@ class StadiumsMap extends React.Component {
                                         <th>Capacity</th>
                                         <td>{marker.capacity}</td>
                                     </tr>
+                                    <tr>
+                                        <th>Visits</th>
+                                        <td>{marker.visits}</td>
+                                    </tr>
                                 </tbody>
                             </Table>
-                            <Card.Link href="https://google.com">Read More</Card.Link>
+                            <Card.Link href={`/stadiums/${marker.stadiumId}`}>Stadium Page</Card.Link>
                         </Card.Body>
                     </Card>
                 </InfoBox>}
